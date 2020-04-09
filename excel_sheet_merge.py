@@ -5,12 +5,16 @@ from os.path import basename
 
 # This script concatenates the sheets (named 'Table 1', 'Table 2', ... so on) of an Excel file into a single sheet. 
 df = []
-f = "/home/.../file3.xlsx" #Modify this. This is the path to the Excel file  
-numberOfSheets = 477 #Modify this. 
+f = "../file_with_extra_sheet.xlsx" #Modify this. This is the path to the Excel file
 
-for i in range(1,numberOfSheets+1):
-    data = pd.read_excel(f, sheetname = 'Table '+str(i), header=None) #Modify the sheetname argument based on how your sheets are named
+#Add your desired sheet name to the list  
+sheet_name_list = ['Table 1','Table 23','Table 45'] #Modify this. 
+
+#Take the rest of the sheet without header
+for sheet_name in sheet_name_list:
+    data = pd.read_excel(f, sheet_name = sheet_name)
     df.append(data)
-final = "/home/.../mergedfile3.xlsx" #Path to the file in which new sheet will be saved.
+
+final = "../mergedfile.csv" #Path to the file in which new sheet will be saved.
 df = pd.concat(df)
-df.to_excel(final)
+df.to_csv(final,index=False)
